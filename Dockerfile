@@ -23,11 +23,11 @@ ARG BUILD_DATE
 ARG VCS_REF
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
-    org.label-schema.name="nzbhydra2-distroless" \
-    org.label-schema.description="Distroless container for the NZBHydra2 program" \
-    org.label-schema.url="https://guillaumedsde.gitlab.io/nzbhydra2-distroless/" \
+    org.label-schema.name="jackett-distroless" \
+    org.label-schema.description="Distroless container for the Jackett program" \
+    org.label-schema.url="https://guillaumedsde.gitlab.io/jackett-distroless/" \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.vcs-url="https://github.com/guillaumedsde/nzbhydra2-distroless" \
+    org.label-schema.vcs-url="https://github.com/guillaumedsde/jackett-distroless" \
     org.label-schema.vendor="guillaumedsde" \
     org.label-schema.schema-version="1.0"
 
