@@ -1,0 +1,8 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+importas PUID PUID
+importas PGID PGID
+posix-cd /Jackett
+s6-setuidgid ${PUID}:${PGID}
+./jackett --NoUpdates

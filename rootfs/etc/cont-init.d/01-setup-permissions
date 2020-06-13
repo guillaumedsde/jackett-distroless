@@ -1,0 +1,8 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+importas PUID PUID
+importas PGID PGID
+
+pipeline { s6-echo /config true ${PUID}:${PGID} 0600 0700 }
+fix-attrs 
