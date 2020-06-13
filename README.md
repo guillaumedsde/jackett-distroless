@@ -11,7 +11,7 @@
 [![Docker Stars](https://img.shields.io/docker/stars/guillaumedsde/jackett-distroless)](https://hub.docker.com/r/guillaumedsde/jackett-distroless)
 [![GitHub](https://img.shields.io/github/license/guillaumedsde/jackett-distroless)](https://github.com/guillaumedsde/jackett-distroless/blob/master/LICENSE.md)
 
-This repository contains the code to build a small and secure **[distroless](https://github.com/GoogleContainerTools/distroless)** **docker** image for **[Jackett](https://github.com/theotherp/nzbhydra2)** running as an unprivileged user.
+This repository contains the code to build a small and secure **[distroless](https://github.com/GoogleContainerTools/distroless)** **docker** image for **[Jackett](https://github.com/Jackett/Jackett)** running as an unprivileged user.
 The final images are built and hosted on the [dockerhub](https://hub.docker.com/r/guillaumedsde/jackett-distroless) and the documentation is hosted on [gitlab pages](https://guillaumedsde.gitlab.io/jackett-distroless/)
 
 ## ✔️ Features summary
