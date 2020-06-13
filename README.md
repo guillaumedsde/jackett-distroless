@@ -63,6 +63,7 @@ I am waiting to see if Google implement their distroless Java images for other p
 
 A couple of projects really helped me out while developing this container:
 
+- 💽 [Jackett](https://github.com/Jackett/Jackett) _the_ awesome software
 - 🏁 [s6-overlay](https://github.com/just-containers/s6-overlay) A simple, relatively small yet powerful set of init script for managing processes (especially in docker containers)
 - 🥑 [Google's distroless](https://github.com/GoogleContainerTools/distroless) base docker images
 - 🐋 The [Docker](https://github.com/docker) project (of course)
