@@ -30,7 +30,7 @@ $ docker run  -v /your/config/path/:/config \
               -v /etc/localtime:/etc/localtime:ro \
               -e PUID=1000 \
               -e PGID=1000 \
-              -p 5076:5076 \
+              -p 9117:9117 \
               guillaumedsde/jackett-distroless:latest
 ```
 
@@ -47,7 +47,7 @@ services:
       - PUID=1000
       - PGID=1000
     ports:
-      - "5076:5076"
+      - "9117:9117"
     image: "guillaumedsde/jackett-distroless:latest"
 ```
 
