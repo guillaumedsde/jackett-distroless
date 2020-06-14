@@ -3,7 +3,7 @@
 [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/guillaumedsde/jackett-distroless)](https://hub.docker.com/r/guillaumedsde/jackett-distroless/builds)
 [![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/guillaumedsde/jackett-distroless?label=documentation)](https://guillaumedsde.gitlab.io/jackett-distroless/)
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/guillaumedsde/jackett-distroless)](https://hub.docker.com/r/guillaumedsde/jackett-distroless/builds)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/guillaumedsde/jackett-distroless?label=version)](https://github.com/guillaumedsde/jackett-distroless/releases)
+[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/guillaumedsde/jackett-distroless)](https://hub.docker.com/r/guillaumedsde/jackett-distroless/tags)
 [![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/guillaumedsde/jackett-distroless)](https://hub.docker.com/r/guillaumedsde/jackett-distroless)
 [![Docker Pulls](https://img.shields.io/docker/pulls/guillaumedsde/jackett-distroless)](https://hub.docker.com/r/guillaumedsde/jackett-distroless)
 [![GitHub stars](https://img.shields.io/github/stars/guillaumedsde/jackett-distroless?label=Github%20stars)](https://github.com/guillaumedsde/jackett-distroless)
