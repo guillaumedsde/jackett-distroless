@@ -2,8 +2,13 @@
 
 # $IMAGE_NAME var is injected into the build so the tag is correct.
 
+JACKETT_VERSION=$(curl --silent "https://api.github.com/repos/Jackett/Jackett/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")')
+
 echo "Build hook running"
-docker build --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-             --build-arg VCS_REF="$SOURCE_COMMIT" \
-             -f "$DOCKERFILE_PATH" \
-             -t "$IMAGE_NAME" .
+docker build --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+    --build-arg VCS_REF="$SOURCE_COMMIT" \
+    --build-arg JACKETT_VERSION="$JACKETT_VERSION" \
+    -f "$DOCKERFILE_PATH" \
+    -t "$IMAGE_NAME" \
+    -t "$DOCKER_REPO:$JACKETT_VERSION" \
+    .
