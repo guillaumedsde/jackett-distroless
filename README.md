@@ -27,6 +27,7 @@ The final images are built and hosted on the [dockerhub](https://hub.docker.com/
 
 ```bash
 $ docker run  -v /your/config/path/:/config \
+              -v /your/torrent/blackhole/path/:/blackhole \
               -v /etc/localtime:/etc/localtime:ro \
               -e PUID=1000 \
               -e PGID=1000 \
@@ -42,6 +43,7 @@ services:
   jackett-distroless:
     volumes:
       - "/your/config/path/:/config"
+      - "/your/torrent/blackhole/path/:/blackhole"
       - "/etc/localtime:/etc/localtime:ro"
     environment:
       - PUID=1000
