@@ -35,7 +35,7 @@ $ docker run  -v /your/config/path/:/config \
               guillaumedsde/jackett-distroless:latest
 ```
 
-#### `docker run` Read-only
+#### 🧊 Read-only `docker run`
 
 If you want your container to be _even_ more secure, you can run it with a read-only filesystem:
 
@@ -71,7 +71,9 @@ services:
     image: "guillaumedsde/jackett-distroless:latest"
 ```
 
-#### `docker-compose.yml` Read-only
+#### 🧊 Read-only `docker-compose.yml` Read-only
+
+If you want your container to be _even_ more secure, you can run it with a read-only filesystem:
 
 ```yaml
 version: "3.3"
@@ -89,7 +91,7 @@ services:
       - "9117:9117"
     tmpfs:
       - "/var:rw,exec"
-      - "/tmp"
+      - "/tmp:rw,exec"
     read_only: true
     image: "guillaumedsde/jackett-distroless:latest"
 ```
