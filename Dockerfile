@@ -15,7 +15,7 @@ RUN if [ "${JACKETT_VERSION}" = "latest" ]; then wget "https://github.com/Jacket
     else wget "https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.LinuxAMDx64.tar.gz"; fi
 
 RUN tar xzf Jackett.Binaries.LinuxAMDx64.tar.gz -C /rootfs \
-    && chmod 777 /rootfs/Jackett \
+    && chmod 755 /rootfs/Jackett/jackett \
     && cd /rootfs/Jackett \
     && rm *.sh
 
