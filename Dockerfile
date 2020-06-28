@@ -19,6 +19,9 @@ RUN tar xzf Jackett.Binaries.LinuxAMDx64.tar.gz -C /rootfs \
     && cd /rootfs/Jackett \
     && rm *.sh
 
+ARG BUSYBOX_VERSION=1.31.0-i686-uclibc
+ADD https://busybox.net/downloads/binaries/$BUSYBOX_VERSION/busybox_WGET /rootfs/wget
+RUN chmod a+x /rootfs/wget
 
 FROM gcr.io/distroless/dotnet:latest
 
@@ -49,5 +52,8 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
 EXPOSE 9117
 
 VOLUME /blackhole
+
+HEALTHCHECK  --start-period=5s --interval=1m --timeout=3s \
+    CMD [ "/wget", "--quiet", "--tries=1", "--spider", "http://localhost:9117/UI/Login"]
 
 ENTRYPOINT [ "/init" ]
