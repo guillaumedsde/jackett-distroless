@@ -53,7 +53,7 @@ EXPOSE 9117
 
 VOLUME /blackhole
 
-HEALTHCHECK  --start-period=5s --interval=1m --timeout=3s \
+HEALTHCHECK  --start-period=5s --interval=90s --timeout=4s \
     CMD [ "/wget", "--quiet", "--tries=1", "--spider", "http://localhost:9117/UI/Login"]
 
 ENTRYPOINT [ "/init" ]
