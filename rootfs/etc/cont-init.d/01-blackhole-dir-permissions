@@ -4,5 +4,5 @@ with-contenv
 importas PUID PUID
 importas PGID PGID
 
-pipeline { s6-echo /blackhole true ${PUID}:${PGID} 0600 0700 }
+pipeline { s6-echo /blackhole true ${PUID}:${PGID} 0644 0755 }
 fix-attrs 
