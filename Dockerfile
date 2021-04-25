@@ -2,7 +2,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG JACKETT_VERSION=latest
 
-FROM alpine as build
+FROM alpine:3.13 as build
 
 ARG JACKETT_VERSION
 
@@ -23,7 +23,7 @@ ARG BUSYBOX_VERSION=1.31.0-i686-uclibc
 ADD https://busybox.net/downloads/binaries/$BUSYBOX_VERSION/busybox_WGET /rootfs/wget
 RUN chmod a+x /rootfs/wget
 
-FROM gcr.io/distroless/dotnet:latest
+FROM gcr.io/distroless/dotnet:nonroot as distroless
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
@@ -35,7 +35,39 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.description="Distroless container for the Jackett program" \
     org.label-schema.url="https://guillaumedsde.gitlab.io/jackett-distroless/" \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.version=$JACKETT_VERSION \
+    org.label-schema.version=$JACKETT_VERSION-distroless \
+    org.label-schema.vcs-url="https://github.com/guillaumedsde/jackett-distroless" \
+    org.label-schema.vendor="guillaumedsde" \
+    org.label-schema.schema-version="1.0"
+
+COPY --from=build /rootfs/wget /rootfs/Jackett /
+
+ENV XDG_CONFIG_HOME=/config
+
+EXPOSE 9117
+
+VOLUME /blackhole
+
+HEALTHCHECK  --start-period=15s --interval=30s --timeout=5s --retries=5 \
+    CMD [ "/wget", "--quiet", "--tries=1", "--spider", "http://localhost:9117/UI/Login"]
+
+ENTRYPOINT [ "/Jackett/jackett" ]
+
+CMD ["--NoUpdates"]
+
+FROM gcr.io/distroless/dotnet:latest as s6
+
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG VCS_REF
+ARG JACKETT_VERSION
+
+LABEL org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.name="jackett-distroless" \
+    org.label-schema.description="Distroless container for the Jackett program" \
+    org.label-schema.url="https://guillaumedsde.gitlab.io/jackett-distroless/" \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.version=$JACKETT_VERSION-s6-overlay \
     org.label-schema.vcs-url="https://github.com/guillaumedsde/jackett-distroless" \
     org.label-schema.vendor="guillaumedsde" \
     org.label-schema.schema-version="1.0"
