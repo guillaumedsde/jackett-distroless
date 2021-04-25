@@ -96,13 +96,18 @@ services:
     image: "guillaumedsde/jackett-distroless:latest"
 ```
 
+## ⚙️ Available tags
+
+Each Jackett version docker image is published in two versions:
+
+- `latest` `v0.17.938-s6-overlay` distroless base image with the s6 overlay added
+- `latest-distroless` `v0.17.938-distroless` plain distroless base image
+
 ## 🖥️ Supported platforms
 
 Currently this container supports only one (but widely used) platform:
 
 - linux/amd64
-
-I am waiting to see if Google implement their distroless Java images for other platforms (e.g. ARM based), for more information, see [here](https://github.com/GoogleContainerTools/distroless/issues/406) or [here](https://github.com/GoogleContainerTools/distroless/issues/377)
 
 ## 🙏 Credits
 
