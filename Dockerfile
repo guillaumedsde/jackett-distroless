@@ -23,7 +23,7 @@ ARG BUSYBOX_VERSION=1.31.0-i686-uclibc
 ADD https://busybox.net/downloads/binaries/$BUSYBOX_VERSION/busybox_WGET /rootfs/wget
 RUN chmod a+x /rootfs/wget
 
-FROM gcr.io/distroless/dotnet:nonroot as distroless
+FROM gcr.io/distroless/dotnet:latest as distroless
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
