@@ -1,9 +1,10 @@
 stages:
   - build
-  - deploy
+  - docs
 
 build:
   image: docker:20-dind-rootless
+  stage: build
   variables:
     DOCKER_BUILDKIT: "1"
     IMAGE_NAME: guillaumedsde/jackett-distroless
@@ -30,7 +31,7 @@ build:
 
 # the 'pages' job will deploy and build your site to the 'public' path
 pages:
-  stage: deploy
+  stage: docs
   # requiring the environment of NodeJS 10
   image: node:10
   # add 'node_modules' to cache for speeding up builds
