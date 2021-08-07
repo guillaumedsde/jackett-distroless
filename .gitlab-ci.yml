@@ -1,5 +1,32 @@
 stages:
+  - build
   - deploy
+
+build:
+  image: docker:20-dind-rootless
+  variables:
+    DOCKER_BUILDKIT: "1"
+    IMAGE_NAME: guillaumedsde/jackett-distroless
+  before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+  script:
+    - >
+      if [[ -n "$JACKETT_VERSION" ]]
+      then
+        export JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")')
+      fi
+    - > 
+      docker build \
+      --progress=plain \
+      --target "distroless" \
+      --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+      --build-arg VCS_REF="$CI_COMMIT_SHORT_SHA" \
+      --build-arg JACKETT_VERSION="$JACKETT_VERSION" \
+      -t "$IMAGE_NAME:$JACKETT_VERSION" \
+      -t $IMAGE_NAME:latest \
+      .
+    - docker push $IMAGE_NAME:latest
+    - docker push $IMAGE_NAME:$JACKETT_VERSION
 
 # the 'pages' job will deploy and build your site to the 'public' path
 pages:

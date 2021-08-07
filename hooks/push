@@ -1,8 +1,0 @@
-#!/bin/bash
-
-JACKETT_VERSION=$(curl --silent "https://api.github.com/repos/Jackett/Jackett/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")')
-
-docker push "$IMAGE_NAME"
-docker push "$DOCKER_REPO:$JACKETT_VERSION-s6-overlay"
-docker push "$IMAGE_NAME-distroless"
-docker push "$DOCKER_REPO:$JACKETT_VERSION-distroless"
