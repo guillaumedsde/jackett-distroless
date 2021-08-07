@@ -19,13 +19,13 @@ build:
       fi
     - > 
       docker build
-      --progress=plain
+      --progress plain
       --target "distroless"
       --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
       --build-arg VCS_REF="$CI_COMMIT_SHORT_SHA"
       --build-arg JACKETT_VERSION="$JACKETT_VERSION"
-      -t "$IMAGE_NAME:$JACKETT_VERSION"
-      -t $IMAGE_NAME:latest
+      --tag $IMAGE_NAME:$JACKETT_VERSION
+      --tag $IMAGE_NAME:latest
       .
     - docker push $IMAGE_NAME:latest
     - docker push $IMAGE_NAME:$JACKETT_VERSION
