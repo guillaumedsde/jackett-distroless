@@ -18,7 +18,7 @@ build:
         export JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")')
       fi
     - > 
-      docker build \
+      docker build . \
       --progress=plain \
       --target "distroless" \
       --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
@@ -26,7 +26,6 @@ build:
       --build-arg JACKETT_VERSION="$JACKETT_VERSION" \
       -t "$IMAGE_NAME:$JACKETT_VERSION" \
       -t $IMAGE_NAME:latest \
-      .
     - docker push $IMAGE_NAME:latest
     - docker push $IMAGE_NAME:$JACKETT_VERSION
 
