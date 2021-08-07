@@ -3,11 +3,13 @@ stages:
   - docs
 
 build:
-  image: docker:20-dind-rootless
+  image: docker:20
   stage: build
   variables:
     DOCKER_BUILDKIT: "1"
     IMAGE_NAME: guillaumedsde/jackett-distroless
+  services:
+    - docker:20-dind
   before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   script:
