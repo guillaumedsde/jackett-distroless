@@ -14,7 +14,7 @@ build:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   script:
     - >
-      if [[ -n "$JACKETT_VERSION" ]]; then
+      if [[ -z "$JACKETT_VERSION" ]]; then
         export JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")')
       fi
     - > 
