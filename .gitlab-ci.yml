@@ -9,9 +9,10 @@ build:
     DOCKER_BUILDKIT: "1"
     IMAGE_NAME: guillaumedsde/jackett-distroless
   services:
-    - docker:20-dind
+    - docker:20.10.8-dind-alpine3.14
   before_script:
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - apk add --no-cache curl
   script:
     - >
       if [[ -z "$JACKETT_VERSION" ]]; then
