@@ -15,9 +15,7 @@ build:
     - apk add --no-cache curl
   script:
     - >
-      if [[ -z "$JACKETT_VERSION" ]]; then
-        export JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")')
-      fi
+      export JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")')
     - > 
       docker build
       --progress plain
