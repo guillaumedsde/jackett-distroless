@@ -12,7 +12,7 @@ build:
     - docker:20.10.8-dind-alpine3.14
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - apk add --no-cache curl
+    - apk add --no-cache curl grep
   script:
     - >
       export JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")')
