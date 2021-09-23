@@ -6,6 +6,8 @@ FROM alpine:3.14 as build
 
 ARG JACKETT_VERSION
 
+WORKDIR /rootfs
+
 RUN if [ "${JACKETT_VERSION}" = "latest" ]; then wget "https://github.com/Jackett/Jackett/releases/latest/download/Jackett.Binaries.LinuxAMDx64.tar.gz" ; \
     else wget "https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.LinuxAMDx64.tar.gz"; fi
 
