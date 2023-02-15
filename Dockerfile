@@ -17,13 +17,12 @@ RUN case "$(uname -m)" in \
     *) exit 1 ;; \
     esac \
     && wget "https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.Linux${JACKETT_ARCH}.tar.gz" -O jackett.tgz \
-    && mkdir app \
+    && mkdir app /rootfs \
     && tar xzf jackett.tgz --strip-components 1 -C app \
-    && chown 0:0 -R app 
+    && chown 0:0 -R app \
+    && mv app /rootfs/
 
 WORKDIR /rootfs
-
-RUN cp -r /workdir/app /rootfs/app
 
 COPY --chmod=755 --chown=0:0 --from=busybox:1.36.0-musl /bin/wget /rootfs/wget
 
