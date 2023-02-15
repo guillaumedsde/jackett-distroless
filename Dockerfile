@@ -1,53 +1,59 @@
 ARG BUILD_DATE
 ARG VCS_REF
-ARG JACKETT_VERSION=latest
+ARG JACKETT_VERSION=v0.20.3105
 
-FROM alpine:3.14 as build
+FROM alpine:3.17 as build
 
 ARG JACKETT_VERSION
 
+WORKDIR /workdir
+
+RUN case "$(uname -m)" in \
+    x86_64)  JACKETT_ARCH="AMDx64" ;; \
+    aarch64*)  JACKETT_ARCH="ARM64" ;; \
+    armv8?)  JACKETT_ARCH="ARM64" ;; \
+    arm64)  JACKETT_ARCH="ARM64" ;; \
+    armv[67]?)  JACKETT_ARCH="ARM32" ;; \
+    *) exit 1 ;; \
+    esac \
+    && wget "https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.Linux${JACKETT_ARCH}.tar.gz" -O jackett.tgz \
+    && mkdir app \
+    && tar xzf jackett.tgz --strip-components 1 -C app \
+    && chown 0:0 -R app 
+
 WORKDIR /rootfs
 
-RUN if [ "${JACKETT_VERSION}" = "latest" ]; then wget "https://github.com/Jackett/Jackett/releases/latest/download/Jackett.Binaries.LinuxAMDx64.tar.gz" ; \
-    else wget "https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.LinuxAMDx64.tar.gz"; fi
+RUN cp -r /workdir/app /rootfs/app
 
-RUN tar xzf Jackett.Binaries.LinuxAMDx64.tar.gz -C /rootfs \
-    && chmod 755 /rootfs/Jackett/jackett \
-    && cd /rootfs/Jackett \
-    && rm *.sh
+COPY --chmod=755 --chown=0:0 --from=busybox:1.36.0-musl /bin/wget /rootfs/wget
 
-ARG BUSYBOX_VERSION=1.31.0-i686-uclibc
-ADD https://busybox.net/downloads/binaries/$BUSYBOX_VERSION/busybox_WGET /rootfs/wget
-RUN chmod a+x /rootfs/wget
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0.3-cbl-mariner2.0-distroless
 
-FROM gcr.io/distroless/dotnet:latest as distroless
+USER 1000
 
-# Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 ARG VCS_REF
 ARG JACKETT_VERSION
 
-LABEL org.label-schema.build-date=$BUILD_DATE \
-    org.label-schema.name="jackett-distroless" \
-    org.label-schema.description="Distroless container for the Jackett program" \
-    org.label-schema.url="https://guillaumedsde.gitlab.io/jackett-distroless/" \
-    org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.version=$JACKETT_VERSION-distroless \
-    org.label-schema.vcs-url="https://github.com/guillaumedsde/jackett-distroless" \
-    org.label-schema.vendor="guillaumedsde" \
-    org.label-schema.schema-version="1.0"
+LABEL org.opencontainers.image.created=$BUILD_DATE \
+    org.opencontainers.image.title="jackett-distroless" \
+    org.opencontainers.image.description="Distroless container for the Jackett program" \
+    org.opencontainers.image.revision=$VCS_REF \
+    org.opencontainers.image.version=$JACKETT_VERSION \
+    org.opencontainers.image.source="https://github.com/guillaumedsde/jackett-distroless" \
+    org.opencontainers.image.authors="guillaumedsde" \
+    org.opencontainers.image.vendor="guillaumedsde"
 
-COPY --from=build /rootfs/wget /rootfs/Jackett /
+COPY --from=build --chown=0:0 /rootfs /
 
-ENV XDG_CONFIG_HOME=/config
+ENV XDG_CONFIG_HOME=/config \
+    DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false
 
 EXPOSE 9117
-
-VOLUME /blackhole
 
 HEALTHCHECK  --start-period=15s --interval=30s --timeout=5s --retries=5 \
     CMD [ "/wget", "--quiet", "--tries=1", "--spider", "http://localhost:9117/UI/Login"]
 
-ENTRYPOINT [ "/jackett" ]
+ENTRYPOINT [ "/app/jackett" ]
 
 CMD ["--NoUpdates"]
