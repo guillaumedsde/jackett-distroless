@@ -43,8 +43,6 @@ LABEL org.opencontainers.image.created=$BUILD_DATE \
     org.opencontainers.image.authors="guillaumedsde" \
     org.opencontainers.image.vendor="guillaumedsde"
 
-COPY --from=build --chown=0:0 /rootfs /
-
 ENV XDG_CONFIG_HOME=/config \
     DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false
 
