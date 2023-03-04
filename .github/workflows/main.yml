@@ -15,7 +15,10 @@ jobs:
         run: >
           echo JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")') >> $GITHUB_OUTPUT
   docker:
-    uses: guillaumedsde/qbittorrent-distroless/.github/workflows/main.yml@master
+    uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
     with:
       software-version: ${{ needs.get-jackett-version.outputs.jackett-version }}
+      platforms: |
+        linux/amd64
+        linux/arm64
     secrets: inherit
