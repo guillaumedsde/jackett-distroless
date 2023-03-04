@@ -4,17 +4,22 @@ on:
     - cron: "0 23 * * *"
 
 jobs:
-  docker:
+  get-jackett-version:
     runs-on: ubuntu-22.04
+    outputs:
+      jackett-version: ${{ steps.jackett-version-step.outputs.JACKETT_VERSION }}
     steps:
       - name: Get latest jackett version
         id: jackett-version-step
         shell: bash
         run: >
           echo JACKETT_VERSION=$(curl --silent 'https://api.github.com/repos/Jackett/Jackett/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")') >> $GITHUB_OUTPUT
-      - uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
-        with:
-          software-version: ${{ steps.jackett-version-step.outputs.JACKETT_VERSION }}
-          platforms: |
-            linux/amd64
-            linux/arm64
+  docker:
+    needs: get-jackett-version
+    uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
+    with:
+      software-version: ${{ needs.get-jackett-version.outputs.jackett-version }}
+      platforms: |
+        linux/amd64
+        linux/arm64
+    secrets: inherit
