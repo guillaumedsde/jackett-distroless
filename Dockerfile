@@ -1,8 +1,6 @@
-ARG JACKETT_VERSION=v0.20.3105
-
 FROM docker.io/alpine:3.17 as build
 
-ARG JACKETT_VERSION
+ARG VERSION
 
 WORKDIR /workdir
 
@@ -14,7 +12,7 @@ RUN case "$(uname -m)" in \
     armv[67]?)  JACKETT_ARCH="ARM32" ;; \
     *) exit 1 ;; \
     esac \
-    && wget --quiet "https://github.com/Jackett/Jackett/releases/download/${JACKETT_VERSION}/Jackett.Binaries.Linux${JACKETT_ARCH}.tar.gz" -O jackett.tgz \
+    && wget --quiet "https://github.com/Jackett/Jackett/releases/download/${VERSION}/Jackett.Binaries.Linux${JACKETT_ARCH}.tar.gz" -O jackett.tgz \
     && mkdir app /rootfs \
     && tar xzf jackett.tgz --strip-components 1 -C app \
     && chown 0:0 -R app \
