@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.18 as build
+FROM docker.io/alpine:3.19 as build
 
 ARG VERSION
 
